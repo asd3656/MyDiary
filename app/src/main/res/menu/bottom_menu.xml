@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_personsearch"
+        android:enabled="true"
+        android:icon="@drawable/personsearch"
+        android:title="친구찾기"/>
+    <item
+        android:id="@+id/action_addbox"
+        android:enabled="true"
+        android:icon="@drawable/addbox"
+        android:title="일기추가"/>
+    <item
+        android:id="@+id/action_accountbox"
+        android:enabled="true"
+        android:icon="@drawable/accountbox"
+        android:title="내정보"/>
+</menu>
