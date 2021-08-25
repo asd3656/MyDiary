@@ -1,11 +1,5 @@
 package com.example.MyDiary;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,8 +7,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     //슬라이드네비
     private DrawerLayout drawerLayout;
     private View drawerView;
-
+    //카카오 로그인
+    private ISessionCallback mSessionCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //앱 실행시 생명주기 설정
@@ -38,6 +47,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        getAppKeyHash(); //카카오 로그인 해시값 구하기
+
+        //카카오 로그인
+        mSessionCallback = new ISessionCallback() {
+            @Override
+            public void onSessionOpened() {
+                // 로그인요청
+                UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        // 로그인 실패(요청했으나)
+                        Toast.makeText(MainActivity.this, "로그인 도중에 오류가 발생했습니다", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        // 세션이 닫힘
+                        Toast.makeText(MainActivity.this, "세션이 닫혔습니다.. 다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(MeV2Response result) {
+                        // 로그인 성공
+                        //로그인 후 이동할 액티비티 설정
+                        Intent intent = new Intent(MainActivity.this, SubActivity.class);
+                        intent.putExtra("nickname",result.getKakaoAccount().getProfile().getNickname());
+                        intent.putExtra("email",result.getKakaoAccount().getEmail());
+                        startActivity(intent);
+
+                        Toast.makeText(MainActivity.this, "로그인에 성공했습니다!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onSessionOpenFailed(KakaoException exception) {
+
+            }
+        };
 
         tv_id = findViewById(R.id.tv_id);
         tv_nick = findViewById(R.id.tv_nick);
@@ -92,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }//onCreate 종료
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() { //네비 슬라이드 기능
@@ -137,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     }//프래그먼트 교체 실행문 종료
 
-    //카카오 로그인 해시값 구하기 온크리에이트 바로 밑에 부분이랑 같이
+    //카카오 로그인 해시값 구하기 온크리에이트 바로 밑에 부분이랑 같이 Fnc7bLN4EAEqXzj35TG8UaBWbCw=
 //    private void getAppKeyHash() {
 //        try{
 //            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
