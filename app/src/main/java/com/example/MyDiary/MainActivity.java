@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
@@ -85,7 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+        Session.getCurrentSession().addCallback(mSessionCallback);
+        Session.getCurrentSession().checkAndImplicitOpen();
 
+        //일반 로그인
         tv_id = findViewById(R.id.tv_id);
         tv_nick = findViewById(R.id.tv_nick);
 
