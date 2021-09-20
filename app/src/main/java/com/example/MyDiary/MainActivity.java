@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Frag1 frag1;
     private Frag2 frag2;
     private Frag3 frag3;
+    private Frag4 frag4;
     //슬라이드네비
     private DrawerLayout drawerLayout;
     private View drawerView;
@@ -100,13 +101,17 @@ public class MainActivity extends AppCompatActivity {
         tv_id.setText(userID);
         tv_nick.setText(userNick);
 
+        Bundle bundle = new Bundle();
+        bundle.putString("userNick",userNick);
+        frag2.setArguments(bundle);
+
         //바텀 네비 시작
         bottomNavigationView = findViewById(R.id.bottomNavi);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.action_personsearch:
+                    case R.id.action_home:
                         setFrag(0);
                         break;
                     case R.id.action_addbox:
@@ -115,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_accountbox:
                         setFrag(2);
                         break;
+                    case R.id.action_diaryadd:
+                        setFrag(3);
+                        break;
                 }
                 return true;
             }
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         frag1 = new Frag1(); //객체생성
         frag2 = new Frag2();
         frag3 = new Frag3();
+        frag4 = new Frag4();
         setFrag(0); //첫 프래그먼트 화면을 지정.(case번호)
 
         //슬라이드네비 시작
@@ -183,6 +192,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 ft.replace(R.id.main_frame,frag3);
+                ft.commit();
+                break;
+            case 3:
+                ft.replace(R.id.main_frame,frag4);
                 ft.commit();
                 break;
         }

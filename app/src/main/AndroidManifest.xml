@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RegisterLoginExample"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SubActivity"></activity>
+        <activity android:name=".activity_draw"/>
+        <activity android:name=".SubActivity" />
         <activity android:name=".activity_bottomnavi" />
         <activity android:name=".IntroActivity">
             <intent-filter>

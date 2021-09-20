@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="친구화면"
-        android:textSize="40sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/et_friendadd"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/btn_friendadd"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="친구추가"/>
+
+    </LinearLayout>
 </LinearLayout>
